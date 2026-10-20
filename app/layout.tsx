@@ -5,7 +5,6 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'folio — historie, które zostają',
   description: 'Odkrywaj starannie wybrane książki, nowe światy i niezapomniane głosy. Znajdź swoją następną ulubioną lekturę z folio.',
-  generator: 'v0.app',
   icons: {
     icon: [
       {
