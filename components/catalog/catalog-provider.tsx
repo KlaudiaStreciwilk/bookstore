@@ -80,6 +80,11 @@ export function CatalogProvider({ books, children }: { books: Book[]; children: 
   return <CatalogContext.Provider value={value}>{children}</CatalogContext.Provider>
 }
 
+// For components rendered both on the home page and outside the catalog (e.g. the header on auth pages).
+export function useOptionalCatalog() {
+  return useContext(CatalogContext)
+}
+
 export function useCatalog() {
   const context = useContext(CatalogContext)
   if (!context) throw new Error('useCatalog must be used within CatalogProvider')
