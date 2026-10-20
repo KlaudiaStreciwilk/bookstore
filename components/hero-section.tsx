@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowRight, Sparkles } from 'lucide-react'
-import { BookCover } from '@/components/catalog/book-cover'
+import { HeroArt } from '@/components/hero-art'
+import { HeroHeadline } from '@/components/hero-headline'
 import type { Book } from '@/lib/types'
 
 export function HeroSection({ featuredBook }: { featuredBook?: Book }) {
@@ -10,7 +11,7 @@ export function HeroSection({ featuredBook }: { featuredBook?: Book }) {
       <div className="hero-inner page-shell">
         <div className="hero-copy">
           <p className="eyebrow"><Sparkles aria-hidden="true" /> Twoja następna ulubiona książka już czeka</p>
-          <h1 id="hero-title">Znajdź historie,<br /><em>które zostają.</em></h1>
+          <HeroHeadline />
           <p className="hero-description">Starannie wybrane książki dla ciekawych świata. Odkrywaj nowe światy, świeże idee i niezapomniane głosy.</p>
           <div className="hero-actions">
             <a className="primary-cta" href="#katalog">Poznaj kolekcję <ArrowRight aria-hidden="true" /></a>
@@ -20,14 +21,7 @@ export function HeroSection({ featuredBook }: { featuredBook?: Book }) {
             </div>
           </div>
         </div>
-        {featuredBook && (
-          <div className="hero-art" aria-label={`Polecana książka: ${featuredBook.title}`}>
-            <div className="hero-ring" aria-hidden="true" />
-            <div className="hero-book-wrap"><BookCover book={featuredBook} large /></div>
-            <div className="rating-float"><div><strong>Wybór czytelników</strong><span className="float-stars">★★★★★</span></div><strong>{featuredBook.rating}</strong></div>
-            <div className="new-badge"><Sparkles aria-hidden="true" /> Nowość</div>
-          </div>
-        )}
+        {featuredBook && <HeroArt book={featuredBook} />}
       </div>
       <a className="scroll-cue" href="#tygodnia" aria-label="Przewiń do książki tygodnia"><ArrowDown aria-hidden="true" /></a>
     </section>
