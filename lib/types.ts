@@ -8,7 +8,21 @@ export type Book = {
   rating: number
   cover: string
   color: string
+  /** Dominant cover colour (hex), used for the pastel card background on hover. */
+  accentColor: string
+  description: string
   tag?: string
+}
+
+export type MonthlyPick = {
+  /** ISO month, e.g. "2026-10". */
+  month: string
+  label: string
+  bookIds: string[]
+}
+
+export type MonthlyPickWithBooks = Omit<MonthlyPick, 'bookIds'> & {
+  books: Book[]
 }
 
 export type Chapter = {

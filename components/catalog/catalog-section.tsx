@@ -7,8 +7,8 @@ export function CatalogSection({ genres }: { genres: string[] }) {
     <section className="catalog-section" id="katalog" aria-labelledby="catalog-title">
       <div className="page-shell">
         <div className="catalog-heading">
-          <div><p className="eyebrow catalog-eyebrow">Wybrane dla ciekawych czytelników</p><h2 id="catalog-title">Odkryj kolejną<br className="mobile-break" /> lekturę</h2></div>
-          <p className="catalog-intro">Od subtelnych literackich perełek po odważne nowe światy — każdy czytelnik znajdzie tu coś dla siebie.</p>
+          <div><p className="eyebrow catalog-eyebrow">Cała kolekcja folio</p><h2 id="catalog-title">Szukasz czegoś<br className="mobile-break" /> konkretnego?</h2></div>
+          <p className="catalog-intro">Przeszukaj katalog po tytule lub autorze albo zawęź wyniki według gatunku, roku wydania i oceny.</p>
         </div>
 
         <BookFilters genres={genres} />
