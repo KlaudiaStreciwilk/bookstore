@@ -11,6 +11,10 @@ export type Book = {
   /** Dominant cover colour (hex), used for the pastel card background on hover. */
   accentColor: string
   description: string
+  /** 3–4 sentences shown inside the opened book. */
+  longDescription: string
+  quote: string
+  quotePage: number
   tag?: string
 }
 

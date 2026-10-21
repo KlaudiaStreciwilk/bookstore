@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useMemo, useState, type Dispatch, type ReactNode, type SetStateAction } from 'react'
-import { useFavorites } from '@/lib/hooks/use-favorites'
+import { useSharedFavorites } from '@/components/favorites-provider'
 import type { Book } from '@/lib/types'
 
 export const ALL_GENRES = 'Wszystkie'
@@ -36,7 +36,7 @@ type CatalogContextValue = {
 const CatalogContext = createContext<CatalogContextValue | null>(null)
 
 export function CatalogProvider({ books, children }: { books: Book[]; children: ReactNode }) {
-  const { favorites, isFavorite, toggleFavorite } = useFavorites()
+  const { favorites, isFavorite, toggleFavorite } = useSharedFavorites()
   const [query, setQuery] = useState('')
   const [genre, setGenre] = useState(ALL_GENRES)
   const [author, setAuthor] = useState(ALL_AUTHORS)

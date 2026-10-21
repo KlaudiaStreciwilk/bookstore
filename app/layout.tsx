@@ -1,5 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
+import { FavoritesProvider } from '@/components/favorites-provider'
+import { MotionProvider } from '@/components/motion/motion-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -31,13 +33,21 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode
+  /** Parallel route slot: the opened book shown over the current page. */
+  modal: React.ReactNode
 }>) {
   return (
     <html lang="pl">
       <body className="antialiased">
-        {children}
+        <MotionProvider>
+          <FavoritesProvider>
+            {children}
+            {modal}
+          </FavoritesProvider>
+        </MotionProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
