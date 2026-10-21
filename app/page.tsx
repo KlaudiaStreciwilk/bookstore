@@ -16,7 +16,7 @@ export default async function Page() {
     <main id="top" className="folio-page">
       <CatalogProvider books={books}>
         <SiteHeader user={user} />
-        <HeroSection featuredBook={weeklyBook?.book} />
+        <HeroSection featuredBook={weeklyBook?.book} shelfBooks={books.filter((book) => book.id !== weeklyBook?.book.id).slice(0, 4)} />
         <MarqueeBand />
         <MonthlyPicksSection picks={monthlyPicks} />
         <WeeklyBookSection chapters={weeklyBook?.chapters ?? []} />

@@ -7,7 +7,7 @@ export function CatalogSection({ genres }: { genres: string[] }) {
     <section className="catalog-section" id="katalog" aria-labelledby="catalog-title">
       <div className="page-shell">
         <div className="catalog-heading">
-          <div><p className="eyebrow catalog-eyebrow">Cała kolekcja folio</p><h2 id="catalog-title">Szukasz czegoś<br className="mobile-break" /> konkretnego?</h2></div>
+          <div><p className="eyebrow catalog-eyebrow">Cała kolekcja Książkarni</p><h2 id="catalog-title">Szukasz czegoś<br className="mobile-break" /> konkretnego?</h2></div>
           <p className="catalog-intro">Przeszukaj katalog po tytule lub autorze albo zawęź wyniki według gatunku, roku wydania i oceny.</p>
         </div>
 

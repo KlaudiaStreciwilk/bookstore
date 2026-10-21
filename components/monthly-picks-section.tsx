@@ -4,6 +4,7 @@ import { useRef, useState, type KeyboardEvent } from 'react'
 import { AnimatePresence, motion, useReducedMotion, type Variants } from 'motion/react'
 import { BookCard } from '@/components/catalog/book-card'
 import { useCatalog } from '@/components/catalog/catalog-provider'
+import { Candle, SleepingCat } from '@/components/decor'
 import { gentleSpring } from '@/components/motion/springs'
 import type { MonthlyPickWithBooks } from '@/lib/types'
 
@@ -73,13 +74,17 @@ export function MonthlyPicksSection({ picks }: { picks: MonthlyPickWithBooks[] }
           </div>
         </div>
 
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div key={active.month} id={PANEL_ID} className="monthly-grid" role="tabpanel" aria-labelledby={tabId(active.month)} initial="hidden" animate="visible" exit="exit" variants={grid}>
-            {active.books.map((book) => (
-              <BookCard key={book.id} book={book} isFavorite={isFavorite(book.id)} onToggleFavorite={toggleFavorite} showDescription />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        <div className="bookcase">
+          <Candle className="bookcase-candle" height="short" />
+          <SleepingCat className="bookcase-cat bookcase-cat-left" tone="grey" />
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div key={active.month} id={PANEL_ID} className="monthly-grid" role="tabpanel" aria-labelledby={tabId(active.month)} initial="hidden" animate="visible" exit="exit" variants={grid}>
+              {active.books.map((book) => (
+                <BookCard key={book.id} book={book} isFavorite={isFavorite(book.id)} onToggleFavorite={toggleFavorite} showDescription />
+              ))}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </section>
   )
