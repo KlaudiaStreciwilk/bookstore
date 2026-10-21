@@ -562,3 +562,141 @@ button { color: inherit; }
   .book-page-main { gap: 20px; padding: 96px 0 40px; }
   .book-page-main .book-viewer { --page-h: min(calc(100svh - 190px), 640px); }
 }
+
+/* Theme toggle */
+.theme-toggle { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.6); color: var(--ink); font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+.theme-toggle:hover { background: rgba(255,255,255,.9); border-color: var(--peri); }
+.theme-toggle:focus-visible { outline: 3px solid rgba(69,53,168,.45); outline-offset: 2px; }
+.theme-toggle svg { width: 19px; height: 19px; flex: 0 0 auto; }
+@media (max-width: 1050px) { .theme-toggle { min-height: 42px; padding: 0 12px; } }
+@media (max-width: 760px) {
+  .theme-toggle { width: 40px; min-height: 40px; padding: 0; }
+  .theme-toggle-label { display: none; }
+}
+
+/* Dark mode: high contrast for low-vision readers. Light text on near-black,
+   accent fills get dark text, and every focus ring is a bright yellow. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #14111F;
+  --foreground: #F5F2FF;
+  --card: #1E1A2E;
+  --card-foreground: #F5F2FF;
+  --primary: #B9AAFF;
+  --primary-foreground: #14111F;
+  --muted: #2A2540;
+  --muted-foreground: #D2CCEA;
+  --border: #4A4366;
+  --input: #4A4366;
+  --ring: #FFD24A;
+  --cream: #14111F;
+  --ink: #F5F2FF;
+  --violet: #B9AAFF;
+  --violet-deep: #D4CBFF;
+  --lavender: #221C3A;
+  --coral: #FF9670;
+  --peri: #B9AAFF;
+  --peri-soft: #2E2750;
+  --line: #4A4366;
+}
+:root[data-theme="dark"] :focus-visible { outline: 3px solid #FFD24A !important; outline-offset: 3px; }
+:root[data-theme="dark"] ::selection { background: #FFD24A; color: #14111F; }
+
+/* Header */
+:root[data-theme="dark"] .brand { color: var(--ink); }
+:root[data-theme="dark"] .brand-mark { color: #14111F; }
+:root[data-theme="dark"] .main-nav { border-color: var(--line); background: rgba(30,26,46,.85); }
+:root[data-theme="dark"] .nav-link { color: #E4DFF7; }
+:root[data-theme="dark"] .nav-link:hover, :root[data-theme="dark"] .nav-selected { color: #fff; background: rgba(255,255,255,.12); }
+:root[data-theme="dark"] .nav-link.active { color: #fff; background: #3A3260; }
+:root[data-theme="dark"] .favorite-count { color: #14111F; }
+:root[data-theme="dark"] .header-login:hover { background: rgba(255,255,255,.12); }
+:root[data-theme="dark"] .header-signup { color: #14111F; box-shadow: none; }
+:root[data-theme="dark"] .header-signup:hover { background: #FFB08F; }
+:root[data-theme="dark"] .avatar-button { border-color: #14111F; color: #14111F; }
+:root[data-theme="dark"] .user-menu-popup { background: var(--card); }
+:root[data-theme="dark"] .theme-toggle { background: rgba(30,26,46,.85); }
+:root[data-theme="dark"] .theme-toggle:hover { background: #2E2750; }
+
+/* Hero */
+:root[data-theme="dark"] .hero-section, :root[data-theme="dark"] .auth-page, :root[data-theme="dark"] .book-page-layout { background: radial-gradient(ellipse at 86% 54%, rgba(255,210,74,.10), transparent 34%), radial-gradient(ellipse at 64% 10%, rgba(153,130,222,.14), transparent 32%), linear-gradient(112deg, #14111F 0%, #17132A 55%, #1D1736 100%); }
+:root[data-theme="dark"] .eyebrow { color: #D4CBFF; }
+:root[data-theme="dark"] .hero-description { color: var(--muted-foreground); }
+:root[data-theme="dark"] .primary-cta { color: #14111F; box-shadow: none; }
+:root[data-theme="dark"] .primary-cta:hover { background: #D4CBFF; }
+:root[data-theme="dark"] .reader-proof p, :root[data-theme="dark"] .scroll-cue { color: var(--muted-foreground); opacity: 1; }
+:root[data-theme="dark"] .reader-proof strong { color: var(--ink); }
+:root[data-theme="dark"] .rating-float { background: rgba(30,26,46,.95); color: var(--ink); }
+:root[data-theme="dark"] .hero-orb-peach { background: rgba(255,111,181,.08); }
+
+/* Weekly book */
+:root[data-theme="dark"] .weekly-section { color: var(--ink); }
+:root[data-theme="dark"] .weekly-eyebrow { color: var(--violet); }
+:root[data-theme="dark"] .weekly-copy > p:not(.eyebrow) { color: var(--muted-foreground); }
+:root[data-theme="dark"] .chapter-button { color: var(--coral); }
+:root[data-theme="dark"] .book-page { background: #1E1A2E; color: var(--ink); }
+:root[data-theme="dark"] .right-page { background: linear-gradient(90deg, #17142A 0%, #1E1A2E 18%, #1E1A2E 100%); }
+:root[data-theme="dark"] .left-page::after { background: rgba(255,255,255,.12); }
+:root[data-theme="dark"] .chapter-excerpt, :root[data-theme="dark"] .page-hint { color: var(--muted-foreground); }
+:root[data-theme="dark"] .page-number { color: #BDB6D6; }
+
+/* Monthly picks */
+:root[data-theme="dark"] .monthly-section { background: linear-gradient(180deg, #14111F 0%, #1B1630 100%); }
+:root[data-theme="dark"] .month-tabs { background: var(--card); box-shadow: none; }
+:root[data-theme="dark"] .month-tab { color: var(--muted-foreground); }
+:root[data-theme="dark"] .month-tab[aria-selected="true"] { color: #14111F; }
+:root[data-theme="dark"] .book-description { color: var(--muted-foreground); }
+
+/* Catalog */
+:root[data-theme="dark"] .catalog-section { background: #18152A; }
+:root[data-theme="dark"] .catalog-eyebrow { color: #D4CBFF; }
+:root[data-theme="dark"] .catalog-heading h2, :root[data-theme="dark"] .results-heading p { color: var(--ink); }
+:root[data-theme="dark"] .catalog-intro, :root[data-theme="dark"] .search-field > span, :root[data-theme="dark"] .select-field > span:first-child, :root[data-theme="dark"] .rating-filter legend, :root[data-theme="dark"] .filter-label { color: var(--muted-foreground); }
+:root[data-theme="dark"] .filter-panel { border-color: var(--line); background: var(--card); box-shadow: none; }
+:root[data-theme="dark"] .search-input-wrap, :root[data-theme="dark"] .select-wrap, :root[data-theme="dark"] .rating-options { border-color: var(--line); background: #14111F; }
+:root[data-theme="dark"] .search-input-wrap input, :root[data-theme="dark"] .select-wrap select { color: var(--ink); }
+:root[data-theme="dark"] .search-input-wrap input::placeholder { color: #A9A2C6; }
+:root[data-theme="dark"] .search-input-wrap svg, :root[data-theme="dark"] .select-wrap > svg { color: var(--muted-foreground); }
+:root[data-theme="dark"] .select-wrap select option { background: #1E1A2E; color: var(--ink); }
+:root[data-theme="dark"] .filter-option { color: var(--muted-foreground); }
+:root[data-theme="dark"] .filter-option:hover { background: var(--muted); }
+:root[data-theme="dark"] .filter-option.selected { background: var(--violet); color: #14111F; }
+:root[data-theme="dark"] .genre-pill { border-color: var(--line); background: var(--card); color: #E4DFF7; }
+:root[data-theme="dark"] .genre-pill:hover { color: #fff; }
+:root[data-theme="dark"] .genre-pill.selected { color: #14111F; background: var(--violet); }
+:root[data-theme="dark"] .result-total { background: var(--muted); color: var(--ink); }
+:root[data-theme="dark"] .clear-filters { color: var(--muted-foreground); }
+/* The card panel colour is set inline by motion, hence !important. */
+:root[data-theme="dark"] .card-cover-wrap { background-color: #241F3C !important; }
+:root[data-theme="dark"] .rating { color: #E4DFF7; }
+:root[data-theme="dark"] .book-byline { color: var(--muted-foreground); }
+:root[data-theme="dark"] .book-meta { color: #BDB6D6; }
+:root[data-theme="dark"] .book-card-detailed .book-meta { color: var(--violet); }
+:root[data-theme="dark"] .empty-icon { color: var(--violet); }
+:root[data-theme="dark"] .empty-state p { color: var(--muted-foreground); }
+:root[data-theme="dark"] .catalog-footer { border-color: var(--line); color: var(--muted-foreground); }
+
+/* Footer + marquee */
+:root[data-theme="dark"] .site-footer { border-color: var(--line); background: #100E1A; }
+:root[data-theme="dark"] .site-footer p, :root[data-theme="dark"] .site-footer a:not(.brand) { color: var(--muted-foreground); }
+:root[data-theme="dark"] .marquee-band { background: #2E2750; color: var(--ink); }
+
+/* Auth pages */
+:root[data-theme="dark"] .auth-input { border-color: var(--line); background: var(--card); }
+:root[data-theme="dark"] .auth-input::placeholder { color: #A9A2C6; }
+:root[data-theme="dark"] .auth-input[aria-invalid="true"] { border-color: #FF8A80; }
+:root[data-theme="dark"] .auth-error { color: #FF8A80; }
+:root[data-theme="dark"] .auth-checkbox, :root[data-theme="dark"] .auth-showcase-copy p:not(.eyebrow) { color: var(--muted-foreground); }
+:root[data-theme="dark"] .auth-submit { color: #14111F; box-shadow: none; }
+:root[data-theme="dark"] .auth-showcase { background: linear-gradient(150deg, #2A2348 0%, #221C3A 52%, #2E2440 100%); }
+:root[data-theme="dark"] .auth-showcase-glow { background: rgba(255,111,181,.10); }
+
+/* Opened book */
+:root[data-theme="dark"] .book-modal-backdrop { background: rgba(5,4,12,.75); }
+:root[data-theme="dark"] .book-modal-close { background: #2E2750; }
+:root[data-theme="dark"] .book-sheet-right { background: linear-gradient(90deg, #17142A 0%, #1E1A2E 14%, #1E1A2E 100%); }
+:root[data-theme="dark"] .book-leaf-back { background: linear-gradient(90deg, #1E1A2E 0%, #1E1A2E 86%, #17142A 100%); }
+:root[data-theme="dark"] .book-details-author, :root[data-theme="dark"] .book-details-description { color: var(--muted-foreground); }
+:root[data-theme="dark"] .book-details-meta, :root[data-theme="dark"] .book-quote figcaption { color: #BDB6D6; }
+:root[data-theme="dark"] .book-favorite { background: var(--card); }
+:root[data-theme="dark"] .book-favorite.is-favorite { border-color: var(--coral); background: #3A2420; }

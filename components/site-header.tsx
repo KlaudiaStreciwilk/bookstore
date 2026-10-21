@@ -5,6 +5,7 @@ import { Heart } from 'lucide-react'
 import { UserMenu } from '@/components/auth/user-menu'
 import { Brand } from '@/components/brand'
 import { useOptionalCatalog } from '@/components/catalog/catalog-provider'
+import { ThemeToggle } from '@/components/theme-toggle'
 import type { User } from '@/lib/auth/types'
 
 function scrollToCatalog() {
@@ -37,6 +38,7 @@ export function SiteHeader({ user }: { user: User | null }) {
           )}
         </nav>
         <div className="header-actions">
+          <ThemeToggle />
           {user ? <UserMenu user={user} /> : (
             <>
               <Link className="header-login" href="/logowanie">Zaloguj się</Link>

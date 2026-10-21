@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { FavoritesProvider } from '@/components/favorites-provider'
 import { MotionProvider } from '@/components/motion/motion-provider'
+import { themeInitScript } from '@/lib/theme'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -27,8 +28,11 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light',
-  themeColor: '#fffbf4',
+  colorScheme: 'light dark',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#fffbf4' },
+    { media: '(prefers-color-scheme: dark)', color: '#14111f' },
+  ],
 }
 
 export default function RootLayout({
@@ -40,7 +44,10 @@ export default function RootLayout({
   modal: React.ReactNode
 }>) {
   return (
-    <html lang="pl">
+    <html lang="pl" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="antialiased">
         <MotionProvider>
           <FavoritesProvider>
