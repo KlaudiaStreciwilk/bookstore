@@ -2,6 +2,8 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { FavoritesProvider } from '@/components/favorites-provider'
 import { MotionProvider } from '@/components/motion/motion-provider'
+import { FontSizeControls } from '@/components/font-size-controls'
+import { fontScaleInitScript } from '@/lib/font-scale'
 import { themeInitScript } from '@/lib/theme'
 import './globals.css'
 
@@ -46,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="pl" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript + fontScaleInitScript }} />
       </head>
       <body className="antialiased">
         <MotionProvider>
@@ -55,6 +57,7 @@ export default function RootLayout({
             {modal}
           </FavoritesProvider>
         </MotionProvider>
+        <FontSizeControls />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
