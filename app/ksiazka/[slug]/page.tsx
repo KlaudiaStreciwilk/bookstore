@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: BookPageProps): Promise<Metadata> {
   const book = await getBookBySlug((await params).slug)
-  return book ? { title: `${book.title} — ${book.author} | folio`, description: book.description } : {}
+  return book ? { title: `${book.title} — ${book.author} | Książkarnia`, description: book.description } : {}
 }
 
 // Full page for a book, used when /ksiazka/[slug] is opened directly (shared link, refresh).

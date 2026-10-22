@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { SignInForm } from '@/components/auth/sign-in-form'
 
 export const metadata: Metadata = {
-  title: 'Zaloguj się — folio',
+  title: 'Zaloguj się — Książkarnia',
 }
 
 export default function SignInPage() {

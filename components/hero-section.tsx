@@ -1,16 +1,16 @@
-import { ArrowDown, ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowDown, ArrowRight, Feather } from 'lucide-react'
 import { HeroArt } from '@/components/hero-art'
 import { HeroHeadline } from '@/components/hero-headline'
 import type { Book } from '@/lib/types'
 
-export function HeroSection({ featuredBook }: { featuredBook?: Book }) {
+export function HeroSection({ featuredBook, shelfBooks = [] }: { featuredBook?: Book; shelfBooks?: Book[] }) {
   return (
     <section className="hero-section" aria-labelledby="hero-title">
       <div className="hero-orb hero-orb-peach" aria-hidden="true" />
       <div className="hero-orb hero-orb-blue" aria-hidden="true" />
       <div className="hero-inner page-shell">
         <div className="hero-copy">
-          <p className="eyebrow"><Sparkles aria-hidden="true" /> Twoja następna ulubiona książka już czeka</p>
+          <p className="eyebrow"><Feather aria-hidden="true" /> Twoja następna ulubiona książka już czeka</p>
           <HeroHeadline />
           <p className="hero-description">Starannie wybrane książki dla ciekawych świata. Odkrywaj nowe światy, świeże idee i niezapomniane głosy.</p>
           <div className="hero-actions">
@@ -21,7 +21,7 @@ export function HeroSection({ featuredBook }: { featuredBook?: Book }) {
             </div>
           </div>
         </div>
-        {featuredBook && <HeroArt book={featuredBook} />}
+        {featuredBook && <HeroArt book={featuredBook} shelfBooks={shelfBooks} />}
       </div>
       <a className="scroll-cue" href="#tygodnia" aria-label="Przewiń do książki tygodnia"><ArrowDown aria-hidden="true" /></a>
     </section>

@@ -1,14 +1,18 @@
 'use client'
 
-import type { PointerEvent } from 'react'
-import { Sparkles } from 'lucide-react'
+import type { CSSProperties, PointerEvent } from 'react'
+import { Feather } from 'lucide-react'
 import { motion, useReducedMotion, useSpring } from 'motion/react'
 import { BookCover } from '@/components/catalog/book-cover'
+import { Candle, SleepingCat } from '@/components/decor'
 import { useMediaQuery } from '@/lib/hooks/use-media-query'
 import type { Book } from '@/lib/types'
 
-const MAX_TILT = 7
+const MAX_TILT = 6
 const tiltSpring = { stiffness: 140, damping: 18, mass: 0.6 }
+
+// Neighbouring volumes shown spine-out: [height %, width px, cloth colour, leans on its left neighbour].
+const spineShapes: [number, number, string, boolean][] = [[88, 40, '#3F5A4A', false], [80, 34, '#8A5A2B', false], [84, 38, '#2F3F5E', false], [76, 32, '#7A2E35', true]]
 
 function bob(duration: number, delay: number, distance = 6) {
   return {
@@ -17,8 +21,19 @@ function bob(duration: number, delay: number, distance = 6) {
   }
 }
 
-// Featured book with a slow floating loop, cursor tilt (desktop only) and bobbing badges.
-export function HeroArt({ book }: { book: Book }) {
+/** A clothbound book seen from its spine: rounded shading, head and tail bands, title running bottom to top. */
+function Spine({ book, shape }: { book?: Book; shape: [number, number, string, boolean] }) {
+  const [height, width, cloth, leaning] = shape
+  return (
+    <span className={`shelf-spine ${leaning ? 'is-leaning' : ''}`} style={{ height: `${height}%`, width, '--cloth': cloth } as CSSProperties} aria-hidden="true">
+      {book && <span className="spine-title">{book.title}</span>}
+      {book && <span className="spine-author">{book.author.split(' ').at(-1)}</span>}
+    </span>
+  )
+}
+
+// Featured book on a candlelit shelf between other volumes, a cat asleep at the end; cursor tilt on desktop.
+export function HeroArt({ book, shelfBooks = [] }: { book: Book; shelfBooks?: Book[] }) {
   const reduceMotion = useReducedMotion()
   const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)')
   const canTilt = finePointer && !reduceMotion
@@ -31,7 +46,7 @@ export function HeroArt({ book }: { book: Book }) {
     const px = (event.clientX - rect.left) / rect.width - 0.5
     const py = (event.clientY - rect.top) / rect.height - 0.5
     rotateY.set(px * MAX_TILT * 2)
-    rotateX.set(-py * MAX_TILT * 2)
+    rotateX.set(-py * MAX_TILT)
   }
 
   function resetTilt() {
@@ -41,14 +56,23 @@ export function HeroArt({ book }: { book: Book }) {
 
   return (
     <div className="hero-art" aria-label={`Polecana książka: ${book.title}`} onPointerMove={handlePointerMove} onPointerLeave={resetTilt}>
-      <div className="hero-ring" aria-hidden="true" />
-      <motion.div className="hero-float" {...(reduceMotion ? {} : bob(6, 0, 10))}>
-        <motion.div className="hero-tilt" style={{ rotateX, rotateY, transformPerspective: 900 }}>
-          <div className="hero-book-wrap"><BookCover book={book} large /></div>
-        </motion.div>
-      </motion.div>
-      <motion.div className="rating-float" {...(reduceMotion ? {} : bob(3.6, 0.5))}><div><strong>Wybór czytelników</strong><span className="float-stars">★★★★★</span></div><strong>{book.rating}</strong></motion.div>
-      <motion.div className="new-badge" {...(reduceMotion ? {} : bob(4.2, 1.4))}><Sparkles aria-hidden="true" /> Nowość</motion.div>
+      <div className="hero-lamp" aria-hidden="true" />
+      <div className="hero-shelf">
+        <div className="hero-shelf-row">
+          <Candle className="hero-candle" />
+          <Spine book={shelfBooks[0]} shape={spineShapes[0]} />
+          <Spine book={shelfBooks[1]} shape={spineShapes[1]} />
+          <motion.div className="hero-tilt" style={{ rotateX, rotateY, transformPerspective: 900, transformOrigin: '50% 100%' }}>
+            <div className="hero-book-wrap"><BookCover book={book} large /></div>
+          </motion.div>
+          <Spine book={shelfBooks[2]} shape={spineShapes[2]} />
+          <Spine book={shelfBooks[3]} shape={spineShapes[3]} />
+          <SleepingCat className="hero-cat" tone="ginger" />
+        </div>
+        <div className="shelf-plank" aria-hidden="true" />
+      </div>
+      <motion.div className="rating-float" {...(reduceMotion ? {} : bob(4.4, 0.5))}><div><strong>Wybór czytelników</strong><span className="float-stars">★★★★★</span></div><strong>{book.rating}</strong></motion.div>
+      <motion.div className="new-badge" {...(reduceMotion ? {} : bob(5, 1.4))}><Feather aria-hidden="true" /> Nowość</motion.div>
     </div>
   )
 }

@@ -31,7 +31,7 @@ export function SignUpForm() {
       <div className="auth-field">
         <label className="auth-checkbox" htmlFor="acceptTerms">
           <input name="acceptTerms" type="checkbox" checked={values.acceptTerms} onChange={(event) => setValue('acceptTerms', event.target.checked)} {...fieldA11y('acceptTerms', errors.acceptTerms)} />
-          <span>Akceptuję regulamin serwisu folio i politykę prywatności.</span>
+          <span>Akceptuję regulamin serwisu Książkarnia i politykę prywatności.</span>
         </label>
         {errors.acceptTerms && <p className="auth-error" id="acceptTerms-error"><AlertCircle aria-hidden="true" />{errors.acceptTerms}</p>}
       </div>

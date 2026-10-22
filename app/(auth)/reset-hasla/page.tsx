@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ResetPasswordForm } from '@/components/auth/reset-password-form'
 
 export const metadata: Metadata = {
-  title: 'Reset hasła — folio',
+  title: 'Reset hasła — Książkarnia',
 }
 
 export default function ResetPasswordPage() {

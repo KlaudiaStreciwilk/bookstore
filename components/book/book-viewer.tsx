@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { Heart } from 'lucide-react'
 import { useAnimate, useReducedMotion } from 'motion/react'
 import { BookCover } from '@/components/catalog/book-cover'
@@ -11,6 +11,8 @@ import type { Book } from '@/lib/types'
 /** Must match the CSS transition of `.book-spread` / `.book-leaf`. */
 const OPEN_MS = 900
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+/** Number of pages that riffle over once the cover is open. */
+const PAGES = [0, 1, 2, 3, 4, 5]
 
 type FlightStart = { x: number; y: number; scale: number }
 
@@ -111,6 +113,8 @@ export function BookViewer({ book, origin, closeRequested = false, onCloseComple
               {favorite ? 'W ulubionych' : 'Dodaj do ulubionych'}
             </button>
           </div>
+          {/* Loose pages that riffle over after the cover opens; purely decorative. */}
+          {PAGES.map((index) => <span key={index} className="book-flip-page" style={{ '--page': index } as CSSProperties} aria-hidden="true" />)}
           <div className="book-leaf" ref={leafRef}>
             <div className="book-leaf-front" aria-hidden={state === 'open'}><BookCover book={book} /></div>
             <div className="book-leaf-back book-sheet"><BookDetails book={book} /></div>
