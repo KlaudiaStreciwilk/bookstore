@@ -212,18 +212,8 @@ button { color: inherit; }
 .book-cover::before { content: ''; position: absolute; z-index: 1; top: 0; bottom: 0; left: 0; width: 9%; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,.2) 0%, rgba(255,255,255,.3) 30%, rgba(0,0,0,.12) 52%, rgba(255,255,255,.08) 70%, transparent 100%); }
 .book-cover::after { content: ''; position: absolute; z-index: 1; inset: 0; pointer-events: none; box-shadow: inset 0 0 22px rgba(0,0,0,.14); }
 .book-cover-large { width: var(--hero-book-w, clamp(260px, 22vw, 316px)); border-radius: 3px 7px 7px 3px; }
-.cover-atlas { --cover-bg: #2F4A42; }
-.cover-garden { --cover-bg: #2E4A33; }
-.cover-blue { --cover-bg: #22324F; }
-.cover-ornate { --cover-bg: #6B2430; }
-.cover-moth { --cover-bg: #4A3424; }
-.cover-fire { --cover-bg: #7A3E22; }
-.cover-depth { --cover-bg: #2B3A4A; }
-.cover-tide { --cover-bg: #3B5550; }
-.cover-plum { --cover-bg: #4B2440; }
-.cover-clouds { --cover-bg: #76561C; }
-.cover-stars { --cover-bg: #1E2238; }
-.cover-neon { --cover-bg: #5A2238; }
+.cover-photo { --cover-bg: #2A1D12; }
+.cover-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .cover-copy { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; padding: 14% 11% 12% 15%; text-align: center; }
 .cover-author { font: 600 calc(9px * var(--font-scale)) var(--font-engraved-stack); letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
 .cover-rule { width: 34%; height: 1px; background: #D9B97A; opacity: .7; }

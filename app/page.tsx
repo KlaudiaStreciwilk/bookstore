@@ -7,16 +7,16 @@ import { SiteFooter } from '@/components/site-footer'
 import { SiteHeader } from '@/components/site-header'
 import { WeeklyBookSection } from '@/components/weekly-book-section'
 import { getCurrentUser } from '@/lib/auth/session'
-import { getBooks, getGenres, getMonthlyPicks, getWeeklyBook } from '@/lib/data'
+import { getBooks, getFeaturedBook, getGenres, getMonthlyPicks, getWeeklyBook } from '@/lib/data'
 
 export default async function Page() {
-  const [books, genres, weeklyBook, monthlyPicks, user] = await Promise.all([getBooks(), getGenres(), getWeeklyBook(), getMonthlyPicks(), getCurrentUser()])
+  const [books, genres, featuredBook, weeklyBook, monthlyPicks, user] = await Promise.all([getBooks(), getGenres(), getFeaturedBook(), getWeeklyBook(), getMonthlyPicks(), getCurrentUser()])
 
   return (
     <main id="top" className="folio-page">
       <CatalogProvider books={books}>
         <SiteHeader user={user} />
-        <HeroSection featuredBook={weeklyBook?.book} shelfBooks={books.filter((book) => book.id !== weeklyBook?.book.id).slice(0, 4)} />
+        <HeroSection featuredBook={featuredBook} shelfBooks={books.filter((book) => book.id !== featuredBook?.id).slice(0, 4)} />
         <MarqueeBand />
         <MonthlyPicksSection picks={monthlyPicks} />
         <WeeklyBookSection chapters={weeklyBook?.chapters ?? []} />

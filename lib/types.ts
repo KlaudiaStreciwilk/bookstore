@@ -6,7 +6,10 @@ export type Book = {
   genre: string
   year: number
   rating: number
+  /** CSS class with the fallback jacket colour, used when there is no `coverImage`. */
   cover: string
+  /** Path to real cover art under `public/`, e.g. "/okladki/diuna.jpg". */
+  coverImage?: string
   color: string
   /** Dominant cover colour (hex), used for the pastel card background on hover. */
   accentColor: string
@@ -14,7 +17,7 @@ export type Book = {
   /** 3–4 sentences shown inside the opened book. */
   longDescription: string
   quote: string
-  quotePage: number
+  quotePage?: number
   tag?: string
 }
 

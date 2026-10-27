@@ -106,7 +106,7 @@ export function BookViewer({ book, origin, closeRequested = false, onCloseComple
             <div className="book-mobile-details"><BookDetails book={book} /></div>
             <figure className="book-quote">
               <blockquote>„{book.quote}”</blockquote>
-              <figcaption>— str. {book.quotePage} —</figcaption>
+              {book.quotePage && <figcaption>— str. {book.quotePage} —</figcaption>}
             </figure>
             <button className={`book-favorite ${favorite ? 'is-favorite' : ''}`} type="button" aria-pressed={favorite} onClick={() => toggleFavorite(book.id)}>
               <Heart fill={favorite ? 'currentColor' : 'none'} aria-hidden="true" />
