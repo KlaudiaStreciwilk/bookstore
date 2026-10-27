@@ -28,8 +28,6 @@ type CatalogContextValue = {
   setMinRating: Dispatch<SetStateAction<string>>
   favoritesOnly: boolean
   setFavoritesOnly: Dispatch<SetStateAction<boolean>>
-  sortBest: boolean
-  setSortBest: Dispatch<SetStateAction<boolean>>
   hasActiveFilters: boolean
   resetFilters: () => void
 }
@@ -46,11 +44,10 @@ export function CatalogProvider({ books, children }: { books: Book[]; children: 
   const [year, setYear] = useState(ANY_YEAR)
   const [minRating, setMinRating] = useState(ANY_RATING)
   const [favoritesOnly, setFavoritesOnly] = useState(false)
-  const [sortBest, setSortBest] = useState(false)
 
   const filteredBooks = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase('pl')
-    const result = books.filter((book) => {
+    return books.filter((book) => {
       const matchesText = !normalizedQuery || `${book.title} ${book.author}`.toLocaleLowerCase('pl').includes(normalizedQuery)
       const matchesGenre = genre === ALL_GENRES || book.genre === genre
       const matchesAuthor = author === ALL_AUTHORS || book.author === author
@@ -59,10 +56,9 @@ export function CatalogProvider({ books, children }: { books: Book[]; children: 
       const matchesFavorites = !favoritesOnly || favorites.includes(book.id)
       return matchesText && matchesGenre && matchesAuthor && matchesYear && matchesRating && matchesFavorites
     })
-    return sortBest ? result.sort((a, b) => b.rating - a.rating) : result
-  }, [author, books, favorites, favoritesOnly, genre, minRating, query, sortBest, year])
+  }, [author, books, favorites, favoritesOnly, genre, minRating, query, year])
 
-  const hasActiveFilters = Boolean(query) || genre !== ALL_GENRES || author !== ALL_AUTHORS || year !== ANY_YEAR || minRating !== ANY_RATING || favoritesOnly || sortBest
+  const hasActiveFilters = Boolean(query) || genre !== ALL_GENRES || author !== ALL_AUTHORS || year !== ANY_YEAR || minRating !== ANY_RATING || favoritesOnly
 
   function resetFilters() {
     setQuery('')
@@ -71,13 +67,12 @@ export function CatalogProvider({ books, children }: { books: Book[]; children: 
     setYear(ANY_YEAR)
     setMinRating(ANY_RATING)
     setFavoritesOnly(false)
-    setSortBest(false)
   }
 
   const value: CatalogContextValue = {
     books, filteredBooks, favoritesEnabled, favorites, isFavorite, toggleFavorite,
     query, setQuery, genre, setGenre, author, setAuthor, year, setYear, minRating, setMinRating,
-    favoritesOnly, setFavoritesOnly, sortBest, setSortBest, hasActiveFilters, resetFilters,
+    favoritesOnly, setFavoritesOnly, hasActiveFilters, resetFilters,
   }
 
   return <CatalogContext.Provider value={value}>{children}</CatalogContext.Provider>
