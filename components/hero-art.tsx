@@ -11,8 +11,8 @@ import type { Book } from '@/lib/types'
 const MAX_TILT = 6
 const tiltSpring = { stiffness: 140, damping: 18, mass: 0.6 }
 
-// Neighbouring volumes shown spine-out: [height %, width px, cloth colour, leans on its left neighbour].
-const spineShapes: [number, number, string, boolean][] = [[88, 40, '#3F5A4A', false], [80, 34, '#8A5A2B', false], [84, 38, '#2F3F5E', false], [76, 32, '#7A2E35', true]]
+// Neighbouring volumes shown spine-out: [height %, width px, leather colour, leans on its left neighbour].
+const spineShapes: [number, number, string, boolean][] = [[88, 40, '#4A3424', false], [80, 34, '#2F4A3A', false], [84, 38, '#6B2A30', false], [76, 32, '#5A3A22', true]]
 
 function bob(duration: number, delay: number, distance = 6) {
   return {
@@ -21,19 +21,19 @@ function bob(duration: number, delay: number, distance = 6) {
   }
 }
 
-/** A clothbound book seen from its spine: rounded shading, head and tail bands, title running bottom to top. */
-function Spine({ book, shape }: { book?: Book; shape: [number, number, string, boolean] }) {
+/** A leather-bound book seen from its spine: rounded shading, leather grain and rubbed edges, headband, raised bands, gilt rules and a blank tooled label. */
+function Spine({ shape }: { shape: [number, number, string, boolean] }) {
   const [height, width, cloth, leaning] = shape
   return (
     <span className={`shelf-spine ${leaning ? 'is-leaning' : ''}`} style={{ height: `${height}%`, width, '--cloth': cloth } as CSSProperties} aria-hidden="true">
-      {book && <span className="spine-title">{book.title}</span>}
-      {book && <span className="spine-author">{book.author.split(' ').at(-1)}</span>}
+      <span className="spine-grain" />
+      <span className="spine-label" />
     </span>
   )
 }
 
 // Featured book on a candlelit shelf between other volumes, a cat asleep at the end; cursor tilt on desktop.
-export function HeroArt({ book, shelfBooks = [] }: { book: Book; shelfBooks?: Book[] }) {
+export function HeroArt({ book }: { book: Book }) {
   const reduceMotion = useReducedMotion()
   const finePointer = useMediaQuery('(hover: hover) and (pointer: fine)')
   const canTilt = finePointer && !reduceMotion
@@ -60,13 +60,13 @@ export function HeroArt({ book, shelfBooks = [] }: { book: Book; shelfBooks?: Bo
       <div className="hero-shelf">
         <div className="hero-shelf-row">
           <Candle className="hero-candle" />
-          <Spine book={shelfBooks[0]} shape={spineShapes[0]} />
-          <Spine book={shelfBooks[1]} shape={spineShapes[1]} />
+          <Spine shape={spineShapes[0]} />
+          <Spine shape={spineShapes[1]} />
           <motion.div className="hero-tilt" style={{ rotateX, rotateY, transformPerspective: 900, transformOrigin: '50% 100%' }}>
             <div className="hero-book-wrap"><BookCover book={book} large /></div>
           </motion.div>
-          <Spine book={shelfBooks[2]} shape={spineShapes[2]} />
-          <Spine book={shelfBooks[3]} shape={spineShapes[3]} />
+          <Spine shape={spineShapes[2]} />
+          <Spine shape={spineShapes[3]} />
           <SleepingCat className="hero-cat" tone="ginger" />
         </div>
         <div className="shelf-plank" aria-hidden="true" />

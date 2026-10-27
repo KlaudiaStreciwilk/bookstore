@@ -7,31 +7,67 @@ export { SleepingCat } from '@/components/sleeping-cat'
 
 type DecorProps = { className?: string }
 
+// Drips running down the candle: [x, width, length]; the outer ones bulge past the edge.
+const drips: [number, number, number][] = [[12, 5, 58], [18, 4, 24], [24, 5, 40], [31, 4, 16], [36, 5, 50], [43, 5, 30]]
+
+/**
+ * A pillar candle burnt down unevenly, drawn with volume: the body is shaded as a cylinder,
+ * the top of the wax glows where the flame shines through it, drips catch a highlight,
+ * and the wax puddle and contact shadow ground it on the shelf.
+ */
 export function Candle({ className = '', height = 'tall' }: DecorProps & { height?: 'tall' | 'short' }) {
-  const wax = height === 'tall' ? 96 : 60
-  const top = 150 - wax
+  const top = height === 'tall' ? 54 : 90
   const id = useId()
+  const ref = (name: string) => `url(#${id}${name})`
+  const body = `M14 ${top + 6}q0-5 6-6h20q6 1 6 6V176H14Z`
   return (
     <span className={`decor candle candle-${height} ${className}`} aria-hidden="true">
       <span className="candle-glow" />
       <svg viewBox="0 0 60 190" width="60" height="190">
         <defs>
-          <linearGradient id={`${id}candle-wax`} x1="0" x2="1"><stop offset="0" stopColor="#D9C9A3" /><stop offset=".35" stopColor="#F6EBD0" /><stop offset="1" stopColor="#BFAE88" /></linearGradient>
-          <radialGradient id={`${id}candle-flame`} cx=".5" cy=".7" r=".6"><stop offset="0" stopColor="#FFFBE6" /><stop offset=".35" stopColor="#FFD36B" /><stop offset=".8" stopColor="#F28C28" /><stop offset="1" stopColor="#C2410C" stopOpacity="0" /></radialGradient>
-          <linearGradient id={`${id}candle-brass`} x1="0" x2="1"><stop offset="0" stopColor="#7A5522" /><stop offset=".45" stopColor="#E3BC6A" /><stop offset="1" stopColor="#6B4518" /></linearGradient>
+          {/* Cylinder: dim left edge, bright highlight a third of the way in, falling into shadow on the right. */}
+          <linearGradient id={`${id}wax`} x1="0" x2="1"><stop offset="0" stopColor="#BFA77C" /><stop offset=".16" stopColor="#EADBB8" /><stop offset=".32" stopColor="#FFFAEE" /><stop offset=".5" stopColor="#F2E5C6" /><stop offset=".82" stopColor="#D2BC90" /><stop offset="1" stopColor="#9C8358" /></linearGradient>
+          <linearGradient id={`${id}drip`} x1="0" x2="1"><stop offset="0" stopColor="#D8C49A" /><stop offset=".35" stopColor="#FFFAEE" /><stop offset=".7" stopColor="#EADBB8" /><stop offset="1" stopColor="#B49B6B" /></linearGradient>
+          {/* Translucent wax lit from inside near the flame. */}
+          <linearGradient id={`${id}inner`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#FFB54D" stopOpacity=".55" /><stop offset=".22" stopColor="#FFC870" stopOpacity=".18" /><stop offset=".45" stopColor="#FFC870" stopOpacity="0" /></linearGradient>
+          <linearGradient id={`${id}base`} x1="0" y1="0" x2="0" y2="1"><stop offset=".8" stopColor="#000" stopOpacity="0" /><stop offset="1" stopColor="#3A2412" stopOpacity=".35" /></linearGradient>
+          <radialGradient id={`${id}crater`} cx=".5" cy=".5" r=".6"><stop offset="0" stopColor="#F2B65E" /><stop offset=".6" stopColor="#F7DCA6" /><stop offset="1" stopColor="#FFF6E2" /></radialGradient>
+          <radialGradient id={`${id}pool`} cx=".42" cy=".3" r=".75"><stop offset="0" stopColor="#FFF8E8" /><stop offset=".6" stopColor="#EBDCB8" /><stop offset="1" stopColor="#B9A074" /></radialGradient>
+          <radialGradient id={`${id}flame`} cx=".5" cy=".72" r=".62"><stop offset="0" stopColor="#FFFFF4" /><stop offset=".3" stopColor="#FFE38A" /><stop offset=".7" stopColor="#F79A2E" /><stop offset="1" stopColor="#D2470F" stopOpacity="0" /></radialGradient>
+          <radialGradient id={`${id}halo`} cx=".5" cy=".5" r=".5"><stop offset="0" stopColor="#FFD27A" stopOpacity=".75" /><stop offset="1" stopColor="#FFB04A" stopOpacity="0" /></radialGradient>
+          <filter id={`${id}soft`} x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2" /></filter>
+          <clipPath id={`${id}clip`}><path d={body} /></clipPath>
         </defs>
-        <rect x="18" y={top} width="24" height={wax} rx="3" fill={`url(#${id}candle-wax)`} />
-        <path d={`M18 ${top + 4}q3 10 0 18M38 ${top + 2}q4 14 1 26`} stroke="#E9DDBD" strokeWidth="3" strokeLinecap="round" fill="none" />
-        <ellipse cx="30" cy={top} rx="12" ry="3" fill="#FBF3DD" />
-        <path d={`M30 ${top}v-7`} stroke="#2A1D12" strokeWidth="1.6" />
-        <g className="candle-flame-g" style={{ transformOrigin: `30px ${top - 4}px` }}>
-          <path d={`M30 ${top - 34}c-7 12-10 20-7 26 2 4 12 4 14 0 3-6 0-14-7-26Z`} fill={`url(#${id}candle-flame)`} />
-          <ellipse cx="30" cy={top - 9} rx="2.4" ry="4" fill="#5B7BD8" opacity=".55" />
+
+        <ellipse cx="31" cy="184" rx="27" ry="4.5" fill="#000" opacity=".35" filter={ref('soft')} />
+        <path d="M2 182q0-11 14-11h28q14 0 14 9q0 6-12 6H12q-10 0-10-4Z" fill={ref('pool')} />
+        <path d="M6 180q8-5 22-5" stroke="#fff" strokeOpacity=".7" strokeWidth="1.2" fill="none" strokeLinecap="round" />
+
+        <path d={body} fill={ref('wax')} />
+        <g clipPath={ref('clip')}>
+          <rect x="10" y={top - 2} width="40" height="180" fill={ref('inner')} />
+          <rect x="10" y={top - 2} width="40" height={176 - top + 2} fill={ref('base')} />
         </g>
-        <path d="M10 150h40l-4 8H14Z" fill={`url(#${id}candle-brass)`} />
-        <path d="M24 158h12v14H24Z" fill={`url(#${id}candle-brass)`} />
-        <ellipse cx="30" cy="180" rx="24" ry="6" fill={`url(#${id}candle-brass)`} />
-        <path d="M50 160c10 0 10 14 0 14" stroke="#B08A45" strokeWidth="3" fill="none" />
+
+        {drips.map(([x, w, length]) => (
+          <g key={x}>
+            <path d={`M${x} ${top + 2}v${length}a${w / 2} ${w / 2} 0 0 0 ${w} 0v-${length}Z`} fill={ref('drip')} />
+            <path d={`M${x + w * 0.32} ${top + 6}v${length - 4}`} stroke="#fff" strokeOpacity=".75" strokeWidth=".9" strokeLinecap="round" />
+            <ellipse cx={x + w / 2} cy={top + length + w / 2 + 1.2} rx={w / 2} ry="1.2" fill="#6E5432" opacity=".18" />
+          </g>
+        ))}
+
+        <path d={`M14 ${top + 5}q3-7 7-3q3-5 7-1q4-5 8 0q4-4 6 0q3-2 4 4q-16 6-32 0Z`} fill="#FFF8EA" />
+        <ellipse cx="30" cy={top + 3} rx="10" ry="2.8" fill={ref('crater')} />
+        <path d={`M30 ${top + 3}q-1-5 1-9`} stroke="#1E140C" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+        <circle cx="31" cy={top - 7} r="1.2" fill="#FF7A1A" />
+
+        <g className="candle-flame-g" style={{ transformOrigin: `30px ${top - 4}px` }}>
+          <ellipse cx="31" cy={top - 16} rx="13" ry="18" fill={ref('halo')} />
+          <path d={`M31 ${top - 32}c-7 12-10 21-7 27 2 4 12 4 14 0 3-6 0-15-7-27Z`} fill={ref('flame')} />
+          <path d={`M31 ${top - 20}c-3 6-4 10-2.5 13 1 1.6 4 1.6 5 0 1.5-3 .5-7-2.5-13Z`} fill="#FFFFF6" opacity=".9" />
+          <ellipse cx="31" cy={top - 5} rx="2.6" ry="3.6" fill="#4F72D6" opacity=".5" />
+        </g>
       </svg>
     </span>
   )

@@ -57,6 +57,7 @@
   --glow: rgba(214,150,70,.22);
   --shadow: rgba(60,40,20,.28);
   --focus: #6B2230;
+  --logo-color: #6B2230;
 
   --background: var(--bg);
   --foreground: var(--ink);
@@ -105,6 +106,7 @@
   --glow: rgba(230,160,80,.20);
   --shadow: rgba(0,0,0,.6);
   --focus: #FFD166;
+  --logo-color: #E2B65A;
 }
 
 * { box-sizing: border-box; }
@@ -131,8 +133,9 @@ button { color: inherit; }
 .header-inner { max-width: 1304px; width: calc(100% - 9.6vw); height: 100%; margin: auto; display: grid; grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr); align-items: center; column-gap: 16px; position: relative; }
 .header-inner > .brand { justify-self: start; }
 .header-inner > .header-actions { justify-self: end; }
-.brand { display: inline-flex; align-items: center; color: var(--ink); }
-.brand-logo { display: block; width: 92px; aspect-ratio: 456 / 481; background-color: currentColor; -webkit-mask: url('/logo.png') center / contain no-repeat; mask: url('/logo.png') center / contain no-repeat; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--logo-color); }
+.brand-name { font: 700 calc(30px * var(--font-scale))/1 var(--font-display-stack); letter-spacing: .01em; white-space: nowrap; }
+.brand-logo { display: block; width: 58px; aspect-ratio: 361 / 360; background-color: currentColor; -webkit-mask: url('/logo.png') center / contain no-repeat; mask: url('/logo.png') center / contain no-repeat; }
 .main-nav { justify-self: center; height: 58px; display: flex; align-items: center; gap: 2px; border: 1px solid var(--line); border-radius: 999px; padding: 6px; background: color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter: blur(14px); white-space: nowrap; }
 .nav-link { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; padding: 0 17px; border-radius: 999px; background: transparent; color: var(--ink-soft); cursor: pointer; font-family: var(--font-engraved-stack); font-size: calc(13px * var(--font-scale)); font-weight: 600; letter-spacing: .06em; transition: background .2s ease, color .2s ease; }
 .nav-link:hover, .nav-selected { color: var(--ink); background: var(--bg-elev); }
@@ -183,16 +186,16 @@ button { color: inherit; }
 .hero-shelf-row { position: relative; height: calc(var(--hero-book-w) / .66); display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 0 12px; }
 .hero-tilt { position: relative; z-index: 1; margin: 0 10px; }
 .hero-book-wrap { position: relative; filter: drop-shadow(0 18px 22px var(--shadow)); }
-.shelf-plank { position: relative; height: 24px; margin: 0 -24px; border-radius: 2px; }
-.shelf-spine { position: relative; flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 14px 0 12px; border-radius: 4px 4px 2px 2px; background: linear-gradient(90deg, rgba(0,0,0,.45) 0%, rgba(255,255,255,.08) 18%, rgba(255,255,255,.22) 32%, rgba(255,255,255,.06) 52%, rgba(0,0,0,.18) 78%, rgba(0,0,0,.5) 100%), var(--cloth); box-shadow: -3px 0 6px rgba(0,0,0,.35), inset 0 2px 0 rgba(255,255,255,.18), inset 0 -2px 0 rgba(0,0,0,.25); }
-.shelf-spine::before, .shelf-spine::after { content: ''; position: absolute; left: 0; right: 0; height: 2px; background: rgba(240,220,170,.55); }
-.shelf-spine::before { top: 8px; }
-.shelf-spine::after { bottom: 7px; }
+.shelf-plank { position: relative; height: 24px; margin: 0 -40px; border-radius: 2px; }
+.shelf-spine { position: relative; flex: 0 0 auto; border-radius: 6px 6px 2px 2px; background: linear-gradient(180deg, #7E2A2E 0 3px, #E9D6A6 3px 4px, transparent 4px), linear-gradient(180deg, transparent 0 21%, rgba(0,0,0,.38) 21% 22%, rgba(255,240,210,.2) 22% 23.6%, rgba(0,0,0,.12) 23.6% 24.4%, transparent 24.4% 75.6%, rgba(0,0,0,.38) 75.6% 76.6%, rgba(255,240,210,.2) 76.6% 78.2%, rgba(0,0,0,.12) 78.2% 79%, transparent 79%), linear-gradient(90deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.15) 9%, rgba(255,240,215,.14) 22%, rgba(255,245,225,.3) 33%, rgba(255,240,215,.08) 50%, rgba(0,0,0,.18) 74%, rgba(0,0,0,.6) 100%), var(--cloth); box-shadow: -5px 0 9px rgba(0,0,0,.45), 3px 0 5px rgba(0,0,0,.28), inset 0 -3px 2px rgba(0,0,0,.3); }
+.shelf-spine::before, .shelf-spine::after { content: ''; position: absolute; z-index: 1; left: 3px; right: 3px; height: 7px; border-block: 2px solid #D4AC5E; opacity: .85; box-shadow: 0 1px 0 rgba(0,0,0,.35); }
+.shelf-spine::before { top: 7%; }
+.shelf-spine::after { bottom: 7%; }
+/* Leather grain plus the rubbed, paler leather at the head, the tail and along the hinges. */
+.spine-grain { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(ellipse 70% 6% at 50% 0%, rgba(255,235,200,.28), transparent), radial-gradient(ellipse 70% 5% at 50% 100%, rgba(255,235,200,.22), transparent), linear-gradient(90deg, rgba(255,235,200,.18) 0 1.5px, transparent 1.5px calc(100% - 1.5px), rgba(255,235,200,.1) calc(100% - 1.5px)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' seed='2'/%3E%3CfeColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.7 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E") 0 0 / 120px 120px; mix-blend-mode: soft-light; }
+.spine-label { position: absolute; z-index: 1; left: 16%; right: 16%; top: 30%; height: 15%; border: 1px solid rgba(212,172,94,.8); border-radius: 2px; background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(0,0,0,.15) 40%, rgba(0,0,0,.35)); box-shadow: inset 0 1px 2px rgba(0,0,0,.45), 0 1px 0 rgba(255,235,200,.15); }
 /* Rests its top on the book to its left, foot pulled out, like the books in the logo. */
 .shelf-spine.is-leaning { transform: rotate(-6deg); transform-origin: 0 100%; margin-left: 30px; }
-.spine-title, .spine-author { writing-mode: vertical-rl; transform: rotate(180deg); color: rgba(250,240,220,.92); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 1px 1px rgba(0,0,0,.4); }
-.spine-title { max-height: 78%; font: 600 calc(13px * var(--font-scale)) var(--font-display-stack); letter-spacing: .02em; }
-.spine-author { font: 600 calc(8px * var(--font-scale)) var(--font-engraved-stack); letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
 
 .rating-float { position: absolute; top: 40px; right: -6px; z-index: 2; width: 230px; min-height: 74px; padding: 14px 18px; border: 1px solid var(--paper-edge); border-radius: 3px; background: var(--paper); box-shadow: 0 16px 34px var(--shadow); display: flex; align-items: center; justify-content: space-between; color: var(--paper-ink); font-size: calc(14px * var(--font-scale)); transform: rotate(2deg); }
 .rating-float div { display: flex; flex-direction: column; gap: 6px; }
@@ -361,7 +364,8 @@ button { color: inherit; }
 /* Footer */
 .site-footer { padding: 28px 0; border-top: 1px solid var(--line); background: var(--bg-deep); }
 .site-footer .page-shell { display: flex; align-items: center; justify-content: space-between; }
-.site-footer .brand-logo { width: 54px; }
+.site-footer .brand-logo { width: 40px; }
+.site-footer .brand-name { font-size: calc(22px * var(--font-scale)); }
 .site-footer p, .site-footer a:not(.brand) { color: var(--ink-soft); font-size: calc(14px * var(--font-scale)); }
 .site-footer a:not(.brand) { display: inline-flex; align-items: center; gap: 7px; }
 .site-footer a svg { width: 15px; }
@@ -644,7 +648,8 @@ button { color: inherit; }
   .page-shell, .header-inner { width: calc(100% - 32px); }
   .site-header { height: 72px; }
   .header-inner { grid-template-columns: max-content minmax(0, 1fr); column-gap: 8px; }
-  .brand-logo { width: 64px; }
+  .brand-logo { width: 44px; }
+  .brand-name { font-size: calc(23px * var(--font-scale)); }
   .main-nav { display: none; }
   .header-actions { gap: 6px; }
   .header-login, .header-signup { min-height: 40px; padding: 0 12px; font-size: calc(13px * var(--font-scale)); }
@@ -734,7 +739,8 @@ button { color: inherit; }
 }
 @media (max-width: 380px) {
   .page-shell, .header-inner { width: calc(100% - 24px); }
-  .brand-logo { width: 52px; }
+  .brand-logo { width: 38px; }
+  .brand-name { font-size: calc(20px * var(--font-scale)); }
   .header-login, .header-signup { padding: 0 10px; font-size: calc(12px * var(--font-scale)); }
   .primary-cta { padding: 0 16px; gap: 12px; }
   .book-page { padding: 26px 16px; }

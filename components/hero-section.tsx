@@ -3,7 +3,7 @@ import { HeroArt } from '@/components/hero-art'
 import { HeroHeadline } from '@/components/hero-headline'
 import type { Book } from '@/lib/types'
 
-export function HeroSection({ featuredBook, shelfBooks = [] }: { featuredBook?: Book; shelfBooks?: Book[] }) {
+export function HeroSection({ featuredBook }: { featuredBook?: Book }) {
   return (
     <section className="hero-section" aria-labelledby="hero-title">
       <div className="hero-orb hero-orb-peach" aria-hidden="true" />
@@ -21,7 +21,7 @@ export function HeroSection({ featuredBook, shelfBooks = [] }: { featuredBook?: 
             </div>
           </div>
         </div>
-        {featuredBook && <HeroArt book={featuredBook} shelfBooks={shelfBooks} />}
+        {featuredBook && <HeroArt book={featuredBook} />}
       </div>
       <a className="scroll-cue" href="#tygodnia" aria-label="Przewiń do książki tygodnia"><ArrowDown aria-hidden="true" /></a>
     </section>
