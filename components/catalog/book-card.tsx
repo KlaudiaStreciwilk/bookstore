@@ -14,7 +14,8 @@ import type { Book } from '@/lib/types'
 type BookCardProps = {
   book: Book
   isFavorite: boolean
-  onToggleFavorite: (id: string) => void
+  /** Omitted for guests: the heart only appears for logged-in readers. */
+  onToggleFavorite?: (id: string) => void
   /** Monthly picks variant: shows the short description instead of the year. */
   showDescription?: boolean
 }
@@ -43,7 +44,7 @@ export function BookCard({ book, isFavorite, onToggleFavorite, showDescription =
   }
 
   function handleFavoriteClick() {
-    onToggleFavorite(book.id)
+    onToggleFavorite?.(book.id)
     setPopCount((count) => count + 1)
   }
 
@@ -53,9 +54,11 @@ export function BookCard({ book, isFavorite, onToggleFavorite, showDescription =
         <Link ref={coverLinkRef} className="card-cover-link" href={bookHref} scroll={false} aria-label={`Otwórz książkę ${book.title}`} onClick={rememberOrigin}>
           <motion.div className="card-cover-motion" variants={cover}><BookCover book={book} /></motion.div>
         </Link>
-        <button className={`heart-button ${isFavorite ? 'is-favorite' : ''}`} type="button" onClick={handleFavoriteClick} aria-label={isFavorite ? `Usuń ${book.title} z ulubionych` : `Dodaj ${book.title} do ulubionych`} aria-pressed={isFavorite}>
-          <motion.span key={popCount} className="heart-icon" initial={popCount && !reduceMotion ? { scale: 0.55 } : false} animate={{ scale: 1 }} transition={heartPop}><Heart fill={isFavorite ? 'currentColor' : 'none'} aria-hidden="true" /></motion.span>
-        </button>
+        {onToggleFavorite && (
+          <button className={`heart-button ${isFavorite ? 'is-favorite' : ''}`} type="button" onClick={handleFavoriteClick} aria-label={isFavorite ? `Usuń ${book.title} z ulubionych` : `Dodaj ${book.title} do ulubionych`} aria-pressed={isFavorite}>
+            <motion.span key={popCount} className="heart-icon" initial={popCount && !reduceMotion ? { scale: 0.55 } : false} animate={{ scale: 1 }} transition={heartPop}><Heart fill={isFavorite ? 'currentColor' : 'none'} aria-hidden="true" /></motion.span>
+          </button>
+        )}
         {book.tag && <span className="cover-tag">{book.tag}</span>}
       </div>
       <div className="card-title-row"><h3><Link className="card-title-link" href={bookHref} scroll={false} onClick={rememberOrigin}>{book.title}</Link></h3><Rating value={book.rating} /></div>

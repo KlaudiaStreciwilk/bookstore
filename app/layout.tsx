@@ -2,6 +2,7 @@ import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Cinzel, Cormorant_Garamond, Lora } from 'next/font/google'
 import { FavoritesProvider } from '@/components/favorites-provider'
+import { getCurrentUser } from '@/lib/auth/session'
 import { MotionProvider } from '@/components/motion/motion-provider'
 import { FontSizeControls } from '@/components/font-size-controls'
 import { fontScaleInitScript } from '@/lib/font-scale'
@@ -43,7 +44,7 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   modal,
 }: Readonly<{
@@ -51,6 +52,8 @@ export default function RootLayout({
   /** Parallel route slot: the opened book shown over the current page. */
   modal: React.ReactNode
 }>) {
+  const user = await getCurrentUser()
+
   return (
     <html lang="pl" suppressHydrationWarning>
       <head>
@@ -58,7 +61,7 @@ export default function RootLayout({
       </head>
       <body className={`antialiased ${display.variable} ${body.variable} ${engraved.variable}`}>
         <MotionProvider>
-          <FavoritesProvider>
+          <FavoritesProvider enabled={Boolean(user)}>
             {children}
             {modal}
           </FavoritesProvider>

@@ -12,6 +12,7 @@ export const ANY_RATING = 'Dowolne'
 type CatalogContextValue = {
   books: Book[]
   filteredBooks: Book[]
+  favoritesEnabled: boolean
   favorites: string[]
   isFavorite: (id: string) => boolean
   toggleFavorite: (id: string) => void
@@ -36,7 +37,9 @@ type CatalogContextValue = {
 const CatalogContext = createContext<CatalogContextValue | null>(null)
 
 export function CatalogProvider({ books, children }: { books: Book[]; children: ReactNode }) {
-  const { favorites, isFavorite, toggleFavorite } = useSharedFavorites()
+  const { favoritesEnabled, favorites: savedFavorites, isFavorite, toggleFavorite } = useSharedFavorites()
+  // Saved ids can outlive a book removed from the catalog; only count books that still exist.
+  const favorites = useMemo(() => savedFavorites.filter((id) => books.some((book) => book.id === id)), [books, savedFavorites])
   const [query, setQuery] = useState('')
   const [genre, setGenre] = useState(ALL_GENRES)
   const [author, setAuthor] = useState(ALL_AUTHORS)
@@ -72,7 +75,7 @@ export function CatalogProvider({ books, children }: { books: Book[]; children: 
   }
 
   const value: CatalogContextValue = {
-    books, filteredBooks, favorites, isFavorite, toggleFavorite,
+    books, filteredBooks, favoritesEnabled, favorites, isFavorite, toggleFavorite,
     query, setQuery, genre, setGenre, author, setAuthor, year, setYear, minRating, setMinRating,
     favoritesOnly, setFavoritesOnly, sortBest, setSortBest, hasActiveFilters, resetFilters,
   }

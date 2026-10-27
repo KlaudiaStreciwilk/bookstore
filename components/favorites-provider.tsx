@@ -8,9 +8,9 @@ type FavoritesContextValue = ReturnType<typeof useFavorites>
 const FavoritesContext = createContext<FavoritesContextValue | null>(null)
 
 // One favorites state for the whole app, so the catalog, the header counter and the
-// opened-book modal (rendered outside the catalog) always agree.
-export function FavoritesProvider({ children }: { children: ReactNode }) {
-  const favorites = useFavorites()
+// opened-book modal (rendered outside the catalog) always agree. Disabled for guests.
+export function FavoritesProvider({ enabled, children }: { enabled: boolean; children: ReactNode }) {
+  const favorites = useFavorites(enabled)
   return <FavoritesContext.Provider value={favorites}>{children}</FavoritesContext.Provider>
 }
 

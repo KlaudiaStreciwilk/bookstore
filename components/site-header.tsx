@@ -26,14 +26,14 @@ export function SiteHeader({ user }: { user: User | null }) {
               <a className="nav-link active" href="#top" onClick={catalog.resetFilters}>Odkrywaj</a>
               <a className="nav-link" href="#katalog" onClick={() => { catalog.setFavoritesOnly(false); catalog.setSortBest(false) }}>Przeglądaj katalog</a>
               <button className={`nav-link ${catalog.sortBest ? 'nav-selected' : ''}`} type="button" onClick={() => { catalog.setSortBest((value) => !value); catalog.setFavoritesOnly(false); scrollToCatalog() }}>Bestsellery</button>
-              <button className={`nav-link nav-favorites ${catalog.favoritesOnly ? 'nav-selected' : ''}`} type="button" aria-pressed={catalog.favoritesOnly} onClick={() => { catalog.setFavoritesOnly((value) => !value); catalog.setSortBest(false); scrollToCatalog() }}>Ulubione <span className="favorite-count">{catalog.favorites.length}</span></button>
+              {catalog.favoritesEnabled && <button className={`nav-link nav-favorites ${catalog.favoritesOnly ? 'nav-selected' : ''}`} type="button" aria-pressed={catalog.favoritesOnly} onClick={() => { catalog.setFavoritesOnly((value) => !value); catalog.setSortBest(false); scrollToCatalog() }}>Ulubione <span className="favorite-count">{catalog.favorites.length}</span></button>}
             </>
           ) : (
             <>
               <a className="nav-link" href="/">Odkrywaj</a>
               <a className="nav-link" href="/#katalog">Przeglądaj katalog</a>
               <a className="nav-link" href="/#katalog">Bestsellery</a>
-              <a className="nav-link nav-favorites" href="/#katalog">Ulubione</a>
+              {user && <a className="nav-link nav-favorites" href="/#katalog">Ulubione</a>}
             </>
           )}
         </nav>
@@ -46,7 +46,7 @@ export function SiteHeader({ user }: { user: User | null }) {
             </>
           )}
         </div>
-        {catalog && <button className="mobile-favorites" type="button" aria-label={`Ulubione: ${catalog.favorites.length}`} onClick={() => { catalog.setFavoritesOnly((value) => !value); scrollToCatalog() }}><Heart aria-hidden="true" /><span>{catalog.favorites.length}</span></button>}
+        {catalog?.favoritesEnabled && <button className="mobile-favorites" type="button" aria-label={`Ulubione: ${catalog.favorites.length}`} onClick={() => { catalog.setFavoritesOnly((value) => !value); scrollToCatalog() }}><Heart aria-hidden="true" /><span>{catalog.favorites.length}</span></button>}
       </div>
     </header>
   )

@@ -13,7 +13,7 @@ const tabId = (month: string) => `monthly-tab-${month}`
 
 // Editors' monthly picks with month tabs (WAI-ARIA tabs pattern) and an animated card swap.
 export function MonthlyPicksSection({ picks }: { picks: MonthlyPickWithBooks[] }) {
-  const { isFavorite, toggleFavorite } = useCatalog()
+  const { favoritesEnabled, isFavorite, toggleFavorite } = useCatalog()
   const reduceMotion = useReducedMotion()
   const [activeMonth, setActiveMonth] = useState(picks.at(-1)?.month)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
@@ -80,7 +80,7 @@ export function MonthlyPicksSection({ picks }: { picks: MonthlyPickWithBooks[] }
           <AnimatePresence mode="wait" initial={false}>
             <motion.div key={active.month} id={PANEL_ID} className="monthly-grid" role="tabpanel" aria-labelledby={tabId(active.month)} initial="hidden" animate="visible" exit="exit" variants={grid}>
               {active.books.map((book) => (
-                <BookCard key={book.id} book={book} isFavorite={isFavorite(book.id)} onToggleFavorite={toggleFavorite} showDescription />
+                <BookCard key={book.id} book={book} isFavorite={isFavorite(book.id)} onToggleFavorite={favoritesEnabled ? toggleFavorite : undefined} showDescription />
               ))}
             </motion.div>
           </AnimatePresence>

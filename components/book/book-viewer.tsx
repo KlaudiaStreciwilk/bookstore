@@ -40,7 +40,7 @@ function BookDetails({ book }: { book: Book }) {
 // (one scrollable page on phones). Open/close are CSS transitions driven by `data-state`.
 export function BookViewer({ book, origin, closeRequested = false, onCloseComplete }: BookViewerProps) {
   const reduceMotion = useReducedMotion()
-  const { isFavorite, toggleFavorite } = useSharedFavorites()
+  const { favoritesEnabled, isFavorite, toggleFavorite } = useSharedFavorites()
   const [flyerRef, animate] = useAnimate<HTMLDivElement>()
   const leafRef = useRef<HTMLDivElement>(null)
   const flightStart = useRef<FlightStart | null>(null)
@@ -108,10 +108,12 @@ export function BookViewer({ book, origin, closeRequested = false, onCloseComple
               <blockquote>„{book.quote}”</blockquote>
               {book.quotePage && <figcaption>— str. {book.quotePage} —</figcaption>}
             </figure>
-            <button className={`book-favorite ${favorite ? 'is-favorite' : ''}`} type="button" aria-pressed={favorite} onClick={() => toggleFavorite(book.id)}>
-              <Heart fill={favorite ? 'currentColor' : 'none'} aria-hidden="true" />
-              {favorite ? 'W ulubionych' : 'Dodaj do ulubionych'}
-            </button>
+            {favoritesEnabled && (
+              <button className={`book-favorite ${favorite ? 'is-favorite' : ''}`} type="button" aria-pressed={favorite} onClick={() => toggleFavorite(book.id)}>
+                <Heart fill={favorite ? 'currentColor' : 'none'} aria-hidden="true" />
+                {favorite ? 'W ulubionych' : 'Dodaj do ulubionych'}
+              </button>
+            )}
           </div>
           {/* Loose pages that riffle over after the cover opens; purely decorative. */}
           {PAGES.map((index) => <span key={index} className="book-flip-page" style={{ '--page': index } as CSSProperties} aria-hidden="true" />)}
