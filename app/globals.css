@@ -330,15 +330,18 @@ button { color: inherit; }
 .rating-filter { margin: 0; padding: 0; border: 0; }
 .rating-filter legend { margin-bottom: 8px; padding: 0; }
 .rating-options { min-height: 46px; display: flex; gap: 5px; padding: 4px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-2); }
-.filter-option { flex: 1; border: 0; border-radius: 3px; background: transparent; color: var(--ink-soft); font-size: calc(14px * var(--font-scale)); cursor: pointer; transition: background .15s, color .15s; }
+.filter-option { position: relative; display: inline-flex; align-items: center; justify-content: center; flex: 1; border: 0; border-radius: 3px; background: transparent; color: var(--ink-soft); font-size: calc(14px * var(--font-scale)); cursor: pointer; transition: background .15s, color .15s; }
 .filter-option:hover { background: var(--bg-elev); color: var(--ink); }
-.filter-option.selected { background: var(--accent-strong); color: var(--on-accent); font-weight: 700; }
+.filter-option:has(:checked) { background: var(--accent-strong); color: var(--on-accent); font-weight: 700; }
 .genre-filter { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; padding-top: 2px; }
 .filter-label { flex: 0 0 auto; }
 .genre-list { display: flex; flex-wrap: wrap; gap: 8px; }
-.genre-pill { min-height: 36px; border: 1px solid var(--line); border-radius: 99px; padding: 0 14px; color: var(--ink-soft); background: var(--surface-2); font-size: calc(14px * var(--font-scale)); cursor: pointer; transition: all .15s ease; }
+.genre-pill { position: relative; display: inline-flex; align-items: center; min-height: 36px; border: 1px solid var(--line); border-radius: 99px; padding: 0 14px; color: var(--ink-soft); background: var(--surface-2); font-size: calc(14px * var(--font-scale)); cursor: pointer; transition: all .15s ease; }
 .genre-pill:hover { border-color: var(--accent); color: var(--ink); }
-.genre-pill.selected { color: var(--on-accent); background: var(--accent-strong); border-color: var(--accent-strong); }
+/* Native radios drive the rating and genre pills; the input is hidden and the label is the visible control. */
+.filter-option input, .genre-pill input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
+.filter-option:has(:focus-visible), .genre-pill:has(:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
+.genre-pill:has(:checked) { color: var(--on-accent); background: var(--accent-strong); border-color: var(--accent-strong); }
 .results-heading { display: flex; justify-content: space-between; align-items: center; margin: 30px 0 20px; }
 .results-heading p { display: flex; align-items: center; gap: 8px; margin: 0; color: var(--ink); font-family: var(--font-engraved-stack); font-size: calc(14px * var(--font-scale)); font-weight: 700; letter-spacing: .08em; }
 .results-dot { width: 6px; height: 6px; transform: rotate(45deg); background: var(--accent); }
